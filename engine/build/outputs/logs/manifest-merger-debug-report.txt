@@ -1,0 +1,16 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml:2:1-3:12
+INJECTED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml:2:1-3:12
+	package
+		INJECTED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml
+	xmlns:android
+		ADDED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml:2:11-69
+uses-sdk
+INJECTED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml
+INJECTED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/AndroidManifest.xml

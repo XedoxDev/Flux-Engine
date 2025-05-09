@@ -1,0 +1,5 @@
+org.xedox.engine.test.engine-androidTest-0 /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/build/generated/res/resValues/androidTest/debug
+org.xedox.engine.test.engine-mergeDebugAndroidTestResources-1 /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+org.xedox.engine.test.engine-mergeDebugAndroidTestResources-2 /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+org.xedox.engine.test.engine-merged_res-3 /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/build/intermediates/merged_res/debugAndroidTest
+org.xedox.engine.test.engine-packaged_res-4 /storage/emulated/0/AndroidIDEProjects/FluxEngine/engine/build/intermediates/packaged_res/debug

@@ -1,0 +1,20 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/FluxEngine/app/build.gradle",
+      "selection": {
+        "end": {
+          "column": 14,
+          "index": 619,
+          "line": 32
+        },
+        "start": {
+          "column": 14,
+          "index": 619,
+          "line": 32
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/FluxEngine/app/build.gradle"
+}

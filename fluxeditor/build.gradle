@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'org.xedox.fluxeditor'
+    compileSdk 34
+   
+    defaultConfig {
+        minSdk 26
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    
+    sourceSets {
+        main {
+            manifest.srcFile "AndroidManifest.xml"
+        }
+    }
+    
+}
+
+dependencies {
+    implementation(project(":engine"))
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    implementation("com.badlogicgames.gdx:gdx:$gdxVersion")
+    implementation("com.badlogicgames.gdx:gdx-backend-android:$gdxVersion")
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FluxEngine</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+
+    <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
+    <string name="project_already_exists">Project with this name already exists</string>
+    <string name="project_create_exception">Failed to create project</string>
+    
+    <string name="project_name">Project name</string>
+    <string name="create_project">Create project</string>
+</resources>

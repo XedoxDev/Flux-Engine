@@ -2,11 +2,15 @@ package org.xedox.fluxengine;
 
 import android.content.Context;
 import android.os.Environment;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Files.FileType;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import java.io.File;
 
 public class Application extends android.app.Application {
 
-    public static Context appContext; 
+    public static Context appContext;
     private static volatile String home;
     private static volatile String projectsPath;
 
@@ -19,7 +23,7 @@ public class Application extends android.app.Application {
 
     private static void initPaths() {
         home = appContext.getExternalFilesDir("home").getAbsolutePath();
-        
+
         File projectsDir = new File(home, "Projects");
         if (!projectsDir.exists()) {
             projectsDir.mkdirs();
@@ -29,23 +33,23 @@ public class Application extends android.app.Application {
 
     public static String getHome() {
         if (home == null) {
-            initPaths(); 
+            initPaths();
         }
         return home;
     }
 
     public static String getProjectsPath() {
         if (projectsPath == null) {
-            initPaths();  
+            initPaths();
         }
         return projectsPath;
     }
-    
+
     public static int getScreenWidth() {
-       return appContext.getResources().getDisplayMetrics().widthPixels;
+        return appContext.getResources().getDisplayMetrics().widthPixels;
     }
-    
+
     public static int getScreenHeight() {
-       return appContext.getResources().getDisplayMetrics().heightPixels;
+        return appContext.getResources().getDisplayMetrics().heightPixels;
     }
 }

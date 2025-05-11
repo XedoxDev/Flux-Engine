@@ -51,6 +51,8 @@ public class ProjectManager {
         my_object.setScriptPath("script.lua");
         my_object.setTexturePath("eye.png");
         my_object.setSize(new Vector2(100, 100));
+        my_object.setX(100);
+        my_object.setY(100);
         main.add(my_object);
         try {
             Assets.from(Application.appContext)

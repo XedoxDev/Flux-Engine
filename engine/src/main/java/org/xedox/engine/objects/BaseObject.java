@@ -119,4 +119,22 @@ public class BaseObject {
     public void setScriptPath(String scriptPath) {
         this.scriptPath = scriptPath;
     }
+
+    public float getScaleX() {
+        return scale.x;
+    }
+
+    public float getScaleY() {
+        return scale.y;
+    }
+
+    public boolean isTouch(float x, float y) {
+    float halfWidth = size.x;
+    float halfHeight = size.y;
+    
+    return x >= position.x - halfWidth
+            && x <= position.x + halfWidth
+            && y <= position.y + halfHeight 
+            && y >= position.y - halfHeight;
+}
 }

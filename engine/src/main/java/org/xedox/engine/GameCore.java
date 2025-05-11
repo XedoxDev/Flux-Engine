@@ -4,44 +4,45 @@ import android.util.Log;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 public class GameCore extends Game {
-    private final Logger logger;
-    public static String assetsPath;
     private Scene currentScene;
+
+    public static String assetsPath;
     public static InputMultiplexer multiplexer;
+    public static boolean init = false;
 
     public GameCore(Scene startScene, String assetsPath) {
         if (startScene == null) {
             throw new IllegalArgumentException("Start scene cannot be null");
         }
-        
-        this.logger = new Logger("GameCore", Logger.DEBUG);
+
+        GameCore.assetsPath =
+                assetsPath != null
+                        ? (assetsPath.endsWith("/") ? assetsPath : assetsPath + "/")
+                        : "";
         this.currentScene = startScene;
-        GameCore.assetsPath = assetsPath != null ? 
-            (assetsPath.endsWith("/") ? assetsPath : assetsPath + "/") : "";
-            
-        multiplexer = new InputMultiplexer();
-        Gdx.input.setInputProcessor(multiplexer);
+        init = true;
+    }
+
+    @Override
+    public void render() {
+        ScreenUtils.clear(Color.valueOf("#000000"));
+        super.render();
     }
 
     @Override
     public void create() {
-        logger.debug("GameCore created with assets path: " + assetsPath);
-        if (currentScene == null) {
-            logger.error("Current scene is null during create()");
-            return;
-        }
-        
+        multiplexer = new InputMultiplexer();
+        Gdx.input.setInputProcessor(multiplexer);
         try {
             switchScene(currentScene);
-            if (getScreen() != null) {
-                logger.debug("Initial scene: " + getScreen().getClass().getSimpleName());
-            }
         } catch (Exception e) {
-            logger.error("Error during scene initialization", e);
+            currentScene = new Scene("fallback", 800, 600);
+            setScreen(currentScene);
         }
     }
 
@@ -52,44 +53,44 @@ public class GameCore extends Game {
 
         try {
             Scene oldScene = currentScene;
+
             currentScene = newScene.clone();
-            
-            if (currentScene == null) {
-                throw new IllegalStateException("Failed to clone scene");
-            }
-            
-            setScreen(currentScene);
             currentScene.start();
-            
+            setScreen(currentScene);
+
             if (oldScene != null) {
-                oldScene.hide();
-                oldScene.dispose();
+                try {
+                    oldScene.hide();
+                    oldScene.dispose();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         } catch (Exception e) {
-            logger.error("Error switching scenes", e);
-            throw new RuntimeException("Scene switch failed", e);
+            e.printStackTrace();
+            currentScene = new Scene("fallback", 800, 600);
+            setScreen(currentScene);
         }
     }
 
     @Override
     public void dispose() {
-        logger.debug("Disposing GameCore");
         try {
-            if (currentScene != null) {
-                currentScene.dispose();
-                currentScene = null;
-            }
             if (multiplexer != null) {
                 multiplexer.clear();
             }
+            if (currentScene != null) {
+                currentScene.dispose();
+            }
         } catch (Exception e) {
-            logger.error("Error during disposal", e);
+            e.printStackTrace();
         } finally {
             super.dispose();
         }
+        init = false;
     }
 
-    public String getAssetsPath() {
+    public static String getAssetsPath() {
         return assetsPath != null ? assetsPath : "";
     }
 

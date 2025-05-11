@@ -118,9 +118,7 @@ public class BaseScene implements Serializable, Screen {
     }
 
     @Override
-    public void render(float delta) {
-        ScreenUtils.clear(Color.valueOf("#000000"));
-    }
+    public void render(float delta) {}
 
     @Override
     public void resize(int width, int height) {}
@@ -155,28 +153,9 @@ public class BaseScene implements Serializable, Screen {
 
     @Override
     public void dispose() {
-        if (objects != null) {
-            for (GameObject obj : objects) {
-                try {
-                    if (obj != null) {
-                        obj.call("dispose");
-                    }
-                } catch (Exception e) {
-                    Gdx.app.error("Dispose", "Error calling dispose on object", e);
-                }
-            }
-
-            for (GameObject obj : objects) {
-                try {
-                    if (obj != null) {
-                        obj.dispose();
-                    }
-                } catch (Exception e) {
-                    Gdx.app.error("Dispose", "Error disposing object", e);
-                }
-            }
-
-            objects.clear();
+        for (GameObject obj : objects) {
+            obj.call("dispose");
+            obj.dispose();
         }
     }
 

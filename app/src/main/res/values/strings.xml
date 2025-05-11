@@ -3,11 +3,27 @@
     <string name="app_name">FluxEngine</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="create">Create</string>
+    <string name="rename">Rename</string>
+    
+    <string name="project_name">Project name</string>
+    <string name="create_project">Create project</string>
+    <string name="open_project">Open project</string>
+    <string name="delete_project">Delete project</string>
+    <string name="export_project">Export project</string>
     <string name="project_name_cannot_be_empty">Project name cannot be empty</string>
     <string name="project_already_exists">Project with this name already exists</string>
     <string name="project_create_exception">Failed to create project</string>
     
-    <string name="project_name">Project name</string>
-    <string name="create_project">Create project</string>
+    <string name="scene_name">Scene name</string>
+    <string name="create_scene">Create new scene</string>
+    <string name="delete_scene">Delete scene</string>
+    <string name="scene_name_cannot_be_empty">Scene name cannot be empty</string>
+    <string name="scene_already_exists">Scene with this name already exists</string>
+    <string name="scene_create_failed">Failed to create scene</string>
 </resources>

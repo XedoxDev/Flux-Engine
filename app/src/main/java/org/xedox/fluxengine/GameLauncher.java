@@ -1,5 +1,6 @@
 package org.xedox.fluxengine;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +52,7 @@ public class GameLauncher extends AndroidApplication {
         if (project.getSceneCount() == 0) {
             throw new IllegalStateException("Project has no scenes");
         }
-        
+
         if (project.getMainScene() == null) {
             throw new IllegalStateException("Project has no main scene");
         }
@@ -59,21 +60,17 @@ public class GameLauncher extends AndroidApplication {
 
     private void initializeGameCore() {
         Scene startScene = project.getMainScene();
-        String assetsPath = project.getAssetsPath();
-        
+        String assetsPath = project.getAssetsPath() + "/";
+
         if (startScene == null) {
             throw new IllegalStateException("Start scene is null");
         }
-        
-        if (assetsPath == null) {
-            assetsPath = "";
-        }
-        
-        Log.d(TAG, String.format(
-            "Starting game with:\n- Scene: %s\n- Assets path: %s",
-            startScene.getName(),
-            assetsPath
-        ));
+
+        Log.d(
+                TAG,
+                String.format(
+                        "Starting game with:\n- Scene: %s\n- Assets path: %s",
+                        startScene.getName(), assetsPath));
 
         gameCore = new GameCore(startScene, assetsPath);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
@@ -84,7 +81,7 @@ public class GameLauncher extends AndroidApplication {
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "Destroying game launcher");
-        
+
         if (gameCore != null) {
             try {
                 gameCore.dispose();

@@ -1,39 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent">
 
     <FrameLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/editor">
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:id="@+id/editor">
 
     </FrameLayout>
-    
+
     <LinearLayout
-        android:layout_height="35dp"
-        android:layout_width="match_parent"
-        android:gravity="center_vertical|left"
-        android:id="@+id/toolbar"
-        android:background="@color/background">
+         android:layout_height="35dp"
+         android:layout_width="match_parent"
+         android:gravity="center_vertical|left"
+         android:background="@color/background"
+         android:id="@+id/toolbar">
 
         <ImageButton
-            android:id="@+id/back"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            style="@style/Widget.AppCompat.ActionButton"
-            android:src="@drawable/back" />
-        
+             android:layout_height="match_parent"
+             android:layout_width="wrap_content"
+             android:src="@drawable/back"
+             style="@style/Widget.AppCompat.ActionButton"
+             android:id="@+id/back" />
+
         <ImageButton
-            android:id="@+id/start"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            style="@style/Widget.AppCompat.ActionButton"
-            android:src="@drawable/start" 
-/>
+             android:layout_height="match_parent"
+             android:layout_width="wrap_content"
+             android:src="@drawable/start"
+             style="@style/Widget.AppCompat.ActionButton"
+             android:id="@+id/start" />
+        
+        <org.xedox.fluxengine.bars.SpinnerView
+            android:id="@+id/scenes_selector"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
+
+    <org.xedox.fluxengine.bars.TransformSelectorView
+         android:layout_height="wrap_content"
+         android:layout_width="50dp"
+         android:layout_centerVertical="true"
+         android:layout_alignParentLeft="true"
+         android:id="@+id/transform_selector" />
 
 </RelativeLayout>

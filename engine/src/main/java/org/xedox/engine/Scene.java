@@ -2,6 +2,7 @@ package org.xedox.engine;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -13,20 +14,22 @@ public class Scene extends BaseScene implements Cloneable {
     private transient OrthographicCamera camera;
     private transient SpriteBatch batch;
 
-    public Scene() {
-        super("default", 800, 600);
-    }
-
     public Scene(String name, int width, int height) {
         super(name, width, height);
     }
 
+    public Scene() {
+        this("default", 800, 600);
+    }
+
     @Override
     public void start() {
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(width, height, camera);
-        batch = new SpriteBatch();
-        TouchListener.viewport[0] = viewport;
+        if (GameCore.init) {
+            camera = new OrthographicCamera();
+            viewport = new FitViewport(width, height, camera);
+            batch = new SpriteBatch();
+            TouchListener.viewport[0] = viewport;
+        }
         super.start();
     }
 
@@ -42,22 +45,12 @@ public class Scene extends BaseScene implements Cloneable {
     @Override
     public void render(float delta) {
         super.render(delta);
-
-        if (viewport == null || camera == null) {
-            start();
-        }
         viewport.apply();
-
-        if (batch == null) {
-            batch = new SpriteBatch();
-        }
-        batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
         for (GameObject obj : objects) {
-            if (obj != null) {
-                obj.render(batch);
-            }
+            obj.render(batch);
+            obj.update(delta);
         }
         batch.end();
     }
@@ -74,57 +67,43 @@ public class Scene extends BaseScene implements Cloneable {
     public void dispose() {
         super.dispose();
         if (batch != null) {
-            batch.dispose();
+            
+                batch.dispose();
             batch = null;
         }
         camera = null;
         viewport = null;
     }
 
-    @Override
-    public Scene clone() {
-        try {
-            Scene scene = KryoEnvironment.deserialize(KryoEnvironment.serialize(this), Scene.class);
-            scene.start();
-            return scene;
-        } catch (Exception e) {
-            Gdx.app.error("Scene", "Clone failed", e);
-            return null;
-        }
-    }
-
     public OrthographicCamera getCamera() {
         if (camera == null) {
-            start();
+            camera = new OrthographicCamera();
         }
         return camera;
     }
 
     public Viewport getViewport() {
         if (viewport == null) {
-            start();
+            viewport = new FitViewport(width, height, getCamera());
         }
         return viewport;
     }
 
     public SpriteBatch getBatch() {
-        if (batch == null) {
-            batch = new SpriteBatch();
-        }
         return batch;
     }
 
     @Override
     public String toString() {
         StringBuilder buff = new StringBuilder();
-        objects.forEach((o) -> buff.append("\n" + o.toString()));
+        objects.forEach(o -> buff.append("\n").append(o.toString()));
+
         return String.format(
                         """
-        %s [%s]
-         ├─ Size:          %d x %d
-         ├─ Objects count: %d
-         └─ Objects:       %s
-        """,
+                %s [%s]
+                Size:          %d x %d
+                Objects count: %d
+                Objects:       %s""",
                         getClass().getSimpleName(),
                         getName(),
                         getWidth(),
@@ -132,5 +111,39 @@ public class Scene extends BaseScene implements Cloneable {
                         size(),
                         buff.toString())
                 .trim();
+    }
+
+    @Override
+    public Scene clone() {
+        try {
+            Scene clonedScene = new Scene(this.getName(), this.getWidth(), this.getHeight());
+
+            clonedScene.camera = new OrthographicCamera();
+            clonedScene.viewport = new FitViewport(getWidth(), getHeight(), clonedScene.camera);
+
+            if (this.camera != null) {
+                clonedScene.camera.position.set(this.camera.position);
+                clonedScene.camera.zoom = this.camera.zoom;
+                clonedScene.camera.update();
+            }
+
+            for (GameObject obj : this.objects) {
+                if (obj != null) {
+                    try {
+                        GameObject clonedObj = obj.clone();
+                        if (clonedObj != null) {
+                            clonedScene.add(clonedObj);
+                        }
+                    } catch (Exception e) {
+                        Gdx.app.error("Scene", "Failed to clone object", e);
+                    }
+                }
+            }
+
+            return clonedScene;
+        } catch (Exception e) {
+            Gdx.app.error("Scene", "Clone failed", e);
+            throw new RuntimeException("Scene clone failed", e);
+        }
     }
 }

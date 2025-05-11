@@ -1,5 +1,6 @@
 package org.xedox.engine.objects;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryo.kryo5.Kryo;
@@ -21,21 +22,16 @@ public abstract class GameObject extends BaseObject implements Disposable, Touch
     protected void initScript() {
         if (!scriptInitialized) {
             this.script = new ObjectScript(this);
-            setupBindings();
             scriptInitialized = true;
         }
     }
-    
+
     public void start() {
-        try {
+        if (GameCore.init) {
             initScript();
-            if (scriptPath != null && !scriptPath.isEmpty()) {
-                script.loadScriptPath(scriptPath);
-                script.call("start");
-            }
+            script.loadScriptPath(scriptPath);
+            script.call("start");
             GameCore.multiplexer.addProcessor(this);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -56,7 +52,9 @@ public abstract class GameObject extends BaseObject implements Disposable, Touch
     }
 
     public abstract void render(SpriteBatch batch);
+
     public abstract void update(float deltaTime);
+
     protected abstract void setupBindings();
 
     @Override
@@ -98,17 +96,7 @@ public abstract class GameObject extends BaseObject implements Disposable, Touch
         }
     }
 
-    @Override
-    public GameObject clone() {
-        try {
-            GameObject cloned = (GameObject) super.clone();
-            cloned.script = null;
-            cloned.scriptInitialized = false;
-            return cloned;
-        } catch (CloneNotSupportedException e) {
-            throw new RuntimeException("Clone not supported", e);
-        }
-    }
+    public abstract GameObject clone();
 
     @Override
     public void dispose() {
@@ -117,7 +105,7 @@ public abstract class GameObject extends BaseObject implements Disposable, Touch
         }
         GameCore.multiplexer.removeProcessor(this);
     }
-    
+
     public static class Serializer extends com.esotericsoftware.kryo.kryo5.Serializer<GameObject> {
         @Override
         public void write(Kryo kryo, Output out, GameObject obj) {
@@ -149,10 +137,26 @@ public abstract class GameObject extends BaseObject implements Disposable, Touch
                 object.setAngle(angle);
                 object.setScriptPath(scriptPath.isEmpty() ? null : scriptPath);
                 return object;
-            } catch (InstantiationException | IllegalAccessException | 
-                    InvocationTargetException | NoSuchMethodException e) {
+            } catch (Exception e) {
                 throw new RuntimeException("Failed to deserialize BaseObject", e);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buffer = new StringBuilder();
+        appendf(buffer, "%s [%s]\n", getClass().getSimpleName(), getName());
+        appendf(buffer, "  Position: [%.2f; %.2f]\n", getX(), getY());
+        appendf(buffer, "  Size: [%d; %d]\n", getWidth(), getHeight());
+        appendf(buffer, "  Angle: %.2f\n", getAngle());
+        appendf(buffer, "  Script: %s\n", getScriptPath());
+        appendf(buffer, "  Scale: [%.2f; %.2f]\n", getScaleX(), getScaleY());
+        appendf(buffer, "  Visible: %s\n", isVisible() ? "True" : "False");
+        return buffer.toString();
+    }
+
+    protected void appendf(StringBuilder buffer, String pattern, Object... args) {
+        buffer.append(String.format(pattern, args));
     }
 }

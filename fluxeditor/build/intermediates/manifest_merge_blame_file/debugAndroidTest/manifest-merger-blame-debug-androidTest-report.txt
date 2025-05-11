@@ -3,24 +3,24 @@
 3    package="org.xedox.fluxeditor.test" >
 4
 5    <uses-sdk
-5-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:5:5-74
+5-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:5:5-74
 6        android:minSdkVersion="26"
-6-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:5:15-41
+6-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:5:15-41
 7        android:targetSdkVersion="33" />
-7-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:5:42-71
+7-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:5:42-71
 8
 9    <instrumentation
-9-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:11:5-15:75
+9-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:11:5-15:75
 10        android:name="android.test.InstrumentationTestRunner"
-10-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:11:22-75
+10-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:11:22-75
 11        android:functionalTest="false"
-11-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:14:22-52
+11-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:14:22-52
 12        android:handleProfiling="false"
-12-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:13:22-53
+12-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:13:22-53
 13        android:label="Tests for org.xedox.fluxeditor.test"
-13-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:15:22-73
+13-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:15:22-73
 14        android:targetPackage="org.xedox.fluxeditor.test" />
-14-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:12:22-71
+14-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:12:22-71
 15
 16    <uses-feature
 16-->[com.badlogicgames.gdx:gdx-backend-android:1.13.1] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/10fefa2e36188739d863cb804a0f1630/transformed/gdx-backend-android-1.13.1/AndroidManifest.xml:7:5-9:35
@@ -41,14 +41,14 @@
 24-->[androidx.core:core:1.13.1] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/52c53ee915fe0926461841e146715408/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
 25
 26    <application
-26-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:7:5-9:19
+26-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:7:5-9:19
 27        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 27-->[androidx.core:core:1.13.1] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/52c53ee915fe0926461841e146715408/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 28        android:debuggable="true"
 29        android:extractNativeLibs="false" >
 30        <uses-library android:name="android.test.runner" />
-30-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:8:9-60
-30-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13360249184308002931.xml:8:23-57
+30-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:8:9-60
+30-->/storage/emulated/0/AndroidIDEProjects/FluxEngine/fluxeditor/build/intermediates/tmp/manifest/androidTest/debug/tempFile1ProcessTestManifest13480737363233937872.xml:8:23-57
 31
 32        <provider
 32-->[androidx.emoji2:emoji2:1.3.0] /data/data/com.itsaky.androidide/files/home/.gradle/caches/8.13/transforms/def7ed651dbfdd48f13026b8b08ded60/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20

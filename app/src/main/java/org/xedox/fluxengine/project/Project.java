@@ -61,6 +61,10 @@ public class Project {
     public String getProperty(String key, String defaultValue) {
         return projectProperties.getProperty(key, defaultValue);
     }
+    
+    public int getIntProperty(String key) {
+        return Integer.parseInt(projectProperties.getProperty(key));
+    }
 
     public void setProperty(String key, String value) {
         projectProperties.setProperty(key, value);
@@ -257,5 +261,12 @@ public class Project {
             scene = scenes.get(0);
         }
         return scene;
+    }
+    
+    public boolean containsScene(String name) {
+        for(Scene scene : scenes) {
+        	if(scene.getName().equals(name)) return true;
+        }
+        return false;
     }
 }

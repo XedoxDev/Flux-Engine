@@ -2,43 +2,42 @@ package org.xedox.fluxengine;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import com.badlogic.gdx.backends.android.AndroidFragmentApplication;
 import org.xedox.engine.GameCore;
 import org.xedox.engine.Scene;
 import org.xedox.fluxeditor.FEditorFragment;
-import org.xedox.fluxengine.dialog.DialogBuilder;
+import org.xedox.fluxengine.bars.SpinnerView;
+import org.xedox.fluxengine.bars.TransformSelectorView;
+import org.xedox.fluxengine.dialog.NewSceneDialog;
 import org.xedox.fluxengine.project.Project;
 import org.xedox.fluxengine.project.ProjectManager;
+import org.xedox.fluxengine.utils.SpinnerAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditorActivity extends AppCompatActivity
         implements AndroidFragmentApplication.Callbacks {
-
+    private static final String TAG = "EditorActivity";
     private static final String PROJECT_NAME_KEY = "project_name";
-    private static final String PROJECT_KEY = "project";
 
     private Project project;
-    private ImageButton backButton, startButton;
+    private SpinnerView scenesSelector;
+    private FEditorFragment editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-
-        backButton = findViewById(R.id.back);
-        startButton = findViewById(R.id.start);
-
-        Intent intent = getIntent();
-        String projectName = intent.getStringExtra(PROJECT_NAME_KEY);
         
+        String projectName = getIntent().getStringExtra(PROJECT_NAME_KEY);
         if (projectName == null || projectName.isEmpty()) {
-            Toast.makeText(this, "Project name not provided", Toast.LENGTH_SHORT).show();
-            finish();
+            showErrorAndFinish("Project name not provided");
             return;
         }
 
@@ -47,63 +46,109 @@ public class EditorActivity extends AppCompatActivity
             if (project == null) {
                 throw new RuntimeException("Failed to load project");
             }
-            
-            String assetsPath = project.getAssetsPath();
-            GameCore.assetsPath = assetsPath != null ? 
-                (assetsPath.endsWith("/") ? assetsPath : assetsPath + "/") : "";
-                
+
+            GameCore.assetsPath = project.getAssetsPath() != null 
+                ? (project.getAssetsPath().endsWith("/") 
+                    ? project.getAssetsPath() 
+                    : project.getAssetsPath() + "/")
+                : "";
+
             if (project.getMainScene() == null) {
                 throw new RuntimeException("Project has no main scene");
             }
         } catch (Exception err) {
-            err.printStackTrace();
-            Toast.makeText(this, "Error loading project", Toast.LENGTH_SHORT).show();
-            navigateBack();
+            showErrorAndFinish("Error loading project: " + err.getMessage());
             return;
         }
 
-        backButton.setOnClickListener(v -> navigateBack());
-        startButton.setOnClickListener(v -> run());
+        initUIComponents();
 
-        if (getSupportFragmentManager().findFragmentById(R.id.editor) == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.editor, FEditorFragment.newInstance())
-                    .commit();
-        }
-
-        OnBackPressedCallback callback =
-                new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        navigateBack();
-                    }
-                };
-
-        getOnBackPressedDispatcher().addCallback(this, callback);
-        
-        Scene mainScene = project.getMainScene();
+        setupEditorFragment();
     }
 
-    private void navigateBack() {
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+    private void showErrorAndFinish(String message) {
+        Log.e(TAG, message);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    private void initUIComponents() {
+        ImageButton backButton = findViewById(R.id.back);
+        ImageButton startButton = findViewById(R.id.start);
+        TransformSelectorView transformSelector = findViewById(R.id.transform_selector);
+        scenesSelector = findViewById(R.id.scenes_selector);
+        
+        updateScenesList();
+
+        scenesSelector.setOnItemClickListener((spinner, pos, item) -> {
+            if (item.getTitle().equals(getString(R.string.create_scene))) {
+                NewSceneDialog.show(this, scenesSelector.adapter, project);
+            } else {
+                switchToScene(item.getTitle());
+                spinner.performDefaultItemClick(pos, item);
+            }
+        });
+
+        backButton.setOnClickListener(v -> exit());
+
+        startButton.setOnClickListener(v -> {
+            try {
+                project.saveScenes();
+                Intent intent = new Intent(this, GameLauncher.class);
+                intent.putExtra(PROJECT_NAME_KEY, project.getName());
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(this, "Error saving scenes: " + e.getMessage(), 
+                    Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        transformSelector.addItem(
+            new TransformSelectorView.Item("position", R.drawable.transform_position));
+
+        getOnBackPressedDispatcher().addCallback(this, 
+            new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    exit();
+                }
+            });
+    }
+
+    private void setupEditorFragment() {
+        try {
+            editor = FEditorFragment.newInstance(project.getMainScene());
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.editor, editor);
+            transaction.commitNow();
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up editor fragment", e);
+            showErrorAndFinish("Failed to initialize editor");
+        }
+    }
+
+    private void updateScenesList() {
+        List<SpinnerAdapter.Item> newItems = new ArrayList<>();
+        for (int i = 0; i < project.getSceneCount(); i++) {
+            newItems.add(new SpinnerAdapter.Item(project.getScene(i).getName()));
+        }
+        newItems.add(new SpinnerAdapter.Item(getString(R.string.create_scene)));
+        scenesSelector.adapter.setItems(newItems);
+    }
+
+    private void switchToScene(String sceneName) {
+        Scene scene = project.getSceneByName(sceneName);
+        if (scene != null && editor != null) {
+            editor.setScene(scene);
+        } else {
+            Toast.makeText(this, "Scene not found or editor not initialized", 
+                Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void exit() {
-        navigateBack();
-    }
-
-    public void run() {
-        if (project == null || project.getMainScene() == null) {
-            Toast.makeText(this, "Project not properly loaded", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        
-        Intent i = new Intent(this, GameLauncher.class);
-        i.putExtra("project_name", project.getName());
-        startActivity(i);
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

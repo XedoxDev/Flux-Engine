@@ -1,9 +1,6 @@
-function start()
-    loadTexture("textures/player.png")
-    setX(100)
-    setY(100)
-end
-
-function update(dt)
-    -- Your update logic here
+function touchMove(x, y, p)
+    if self:isTouch(x, y) then
+        self:setX(x)
+        self:setY(y)
+    end
 end
